@@ -112,3 +112,6 @@
 [submodule "nanti-aja"]
 	path = nanti-aja
 	url = https://github.com/vathmos/nanti-aja.git
+[submodule "satset-ai"]
+	path = satset-ai
+	url = https://github.com/RifkiFrds/satset-ai.git
