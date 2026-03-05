@@ -118,3 +118,6 @@
 [submodule "satset-ai"]
 	path = satset-ai
 	url = https://github.com/RifkiFrds/satset-ai.git
+[submodule "Programmer-quiz"]
+	path = Programmer-quiz
+	url = https://github.com/aud1tya4dnan/programmer-quiz.git
