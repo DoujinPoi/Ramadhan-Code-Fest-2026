@@ -1,0 +1,26 @@
+{
+  "name": "ramadhan-prayer-times-api",
+  "version": "1.0.0",
+  "description": "Simple proxy API for Indonesia prayer times using api.co.id with local rate limiting.",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
+  },
+  "keywords": [
+    "ramadhan",
+    "prayer-times",
+    "api",
+    "express"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.4.1"
+  }
+}
