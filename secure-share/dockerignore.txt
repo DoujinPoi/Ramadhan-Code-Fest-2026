@@ -1,0 +1,61 @@
+# Docker ignore file
+# Exclude unnecessary files from Docker build context
+
+# Dependencies
+node_modules
+.pnpm-store
+
+# Build outputs
+.next
+out
+dist
+build
+
+# Database files (will be created fresh)
+db/*.db
+db/*.db-journal
+prisma/*.db
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Git
+.git
+.gitignore
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+Dockerfile*
+docker-compose*
+.docker
+
+# Documentation
+docs
+*.md
+!README.md
+
+# Test files
+**/*.test.*
+**/*.spec.*
+coverage
+.nyc_output
+
+# Logs
+*.log
+npm-debug.log*
+
+# Misc
+.prettierrc
+.eslintrc*
+.editorconfig

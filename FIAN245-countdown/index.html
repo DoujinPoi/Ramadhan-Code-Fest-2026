@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Menuju Lebaran 2026</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a472a; /* Hijau Islami */
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        h1 { margin-bottom: 20px; }
+        #countdown {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        .time-box {
+            background: #f39c12;
+            padding: 15px;
+            border-radius: 10px;
+            min-width: 80px;
+        }
+        .label { font-size: 0.8rem; display: block; margin-top: 5px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Menuju Idul Fitri 2026</h1>
+    <div id="countdown">
+        <div class="time-box"><span id="days">00</span><span class="label">Hari</span></div>
+        <div class="time-box"><span id="hours">00</span><span class="label">Jam</span></div>
+        <div class="time-box"><span id="minutes">00</span><span class="label">Menit</span></div>
+        <div class="time-box"><span id="seconds">00</span><span class="label">Detik</span></div>
+    </div>
+</div>
+
+<script>
+    // Set tanggal tujuan (Estimasi 1 Syawal 1447H - 20 Maret 2026)
+    const targetDate = new Date("March 20, 2026 00:00:00").getTime();
+
+    const timer = setInterval(function() {
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // tampilkan hasil dengan padding 0 sesuai saran 
+        document.getElementById("days").innerHTML = days;
+        document.getElementById("hours").innerHTML = String(hours).padStart(2, '0');
+        document.getElementById("minutes").innerHTML = String(minutes).padStart(2, '0');
+        document.getElementById("seconds").innerHTML = String(seconds).padStart(2, '0');
+
+        if (distance < 0) {
+            clearInterval(timer);
+            document.getElementById("countdown").innerHTML = "Selamat Idul Fitri 1447 H!";
+        }
+    }, 1000);
+</script>
+
+</body>
+</html>

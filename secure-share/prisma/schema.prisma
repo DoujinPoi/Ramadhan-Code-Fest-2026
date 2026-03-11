@@ -1,0 +1,39 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model SecureFile {
+  id            String   @id @default(cuid())
+  fileName      String   // Original filename
+  fileType      String   // MIME type
+  fileSize      Int      // File size in bytes
+  encryptedData String   // Base64 encoded encrypted data
+  iv            String   // Initialization vector (base64)
+  salt          String   // Salt for key derivation (base64)
+  
+  // Security settings
+  oneTimeDownload Boolean @default(true)
+  downloadCount   Int     @default(0)
+  
+  // Expiry (default 24 hours)
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+  
+  // Status
+  isDeleted    Boolean  @default(false)
+  deletedAt    DateTime?
+  
+  // For atomic locking - we'll use a version field for optimistic locking
+  version      Int      @default(0)
+
+  @@index([expiresAt])
+  @@index([isDeleted])
+}

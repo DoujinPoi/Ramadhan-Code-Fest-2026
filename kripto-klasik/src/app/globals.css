@@ -1,0 +1,117 @@
+@import "tailwindcss";
+
+/* Use class-based dark mode (.dark on <html>) instead of media query */
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Custom Colors: Windows 7 Theme */
+  --color-win7-base: #11689b;
+  --color-win7-light: #30b6df;
+  --color-win7-dark: #013e63;
+  --color-win7-glass-bg: rgba(255, 255, 255, 0.35);
+  --color-win7-glass-border-light: rgba(255, 255, 255, 0.7);
+  --color-win7-glass-border-dark: rgba(0, 0, 0, 0.3);
+
+  /* Font Families */
+  --font-display: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Custom Scrollbar - Aero Style */
+::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f0f0f0;
+  border-left: 1px solid #d3d3d3;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to right, #cfcfcf, #e2e2e2, #cfcfcf);
+  border: 1px solid #a6a6a6;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to right, #b8b8b8, #d1d1d1, #b8b8b8);
+  border-color: #8c8c8c;
+}
+
+/* Material Symbols filled variant */
+.filled {
+  font-variation-settings: "FILL" 1;
+}
+
+body {
+  font-family: var(--font-display);
+  /* Disable custom text selection colors to feel more native */
+}
+
+/* --- Windows 7 Aero Utilities --- */
+
+.win7-desktop {
+  background: #11689b;
+  background-image:
+    radial-gradient(ellipse at 50% 120%, #46bce5 0%, transparent 65%),
+    linear-gradient(to bottom, #013354 0%, #0d6091 40%, #034b7f 100%);
+  background-attachment: fixed;
+}
+
+.aero-window {
+  background: rgba(240, 245, 255, 0.45);
+  backdrop-filter: blur(12px) saturate(120%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 8px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 1px 0 0 rgba(255, 255, 255, 0.5),
+    inset -1px 0 0 rgba(255, 255, 255, 0.5),
+    0 5px 20px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.aero-titlebar {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.2) 40%, rgba(255, 255, 255, 0.0) 41%, rgba(255, 255, 255, 0.1) 100%);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  text-shadow: 0 0 4px #fff, 0 0 8px #fff;
+}
+
+.aero-content {
+  background: #ffffff;
+  border-top: 1px solid rgba(0, 0, 0, 0.4);
+  /* Inner shadow to match the dip from the glass */
+  box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.2);
+}
+
+.aero-inset {
+  background: #ffffff;
+  border: 1px solid #8e8f8f;
+  border-top-color: #696969;
+  border-left-color: #696969;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Native-looking button */
+.aero-btn {
+  background: linear-gradient(to bottom, #f2f2f2 0%, #ebebeb 45%, #dddddd 48%, #cfcfcf 100%);
+  border: 1px solid #707070;
+  border-radius: 3px;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.8);
+  color: #000;
+  transition: all 0.1s;
+}
+
+.aero-btn:hover {
+  background: linear-gradient(to bottom, #eaf6fd 0%, #d9f0fc 45%, #bee6fd 48%, #a7d9f5 100%);
+  border-color: #3c7fb1;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.8), 0 0 2px #4fc4f6;
+}
+
+.aero-btn:active {
+  background: linear-gradient(to bottom, #e5f4fc 0%, #c4e5f6 45%, #98d1ef 48%, #68b3db 100%);
+  border-color: #2c628b;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+}

@@ -1,0 +1,83 @@
+# Docker Compose for SecureShare
+# Production deployment configuration
+
+services:
+  # Main Application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: secureshare-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=file:/app/db/production.db
+      - CLEANUP_SECRET=${CLEANUP_SECRET}
+      - NEXT_PUBLIC_TURNSTILE_SITE_KEY=${NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+      - TURNSTILE_SECRET_KEY=${TURNSTILE_SECRET_KEY}
+    volumes:
+      - secureshare-db:/app/db
+      - secureshare-uploads:/app/uploads
+    networks:
+      - secureshare-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/api/files"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # Cleanup Service (runs as separate container)
+  cleanup-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.cleanup
+    container_name: secureshare-cleanup
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=file:/app/db/production.db
+      - CLEANUP_SECRET=${CLEANUP_SECRET}
+      - APP_URL=http://app:3000
+    volumes:
+      - secureshare-db:/app/db
+    networks:
+      - secureshare-network
+    depends_on:
+      app:
+        condition: service_healthy
+
+  # Caddy Reverse Proxy (Automatic HTTPS)
+  caddy:
+    image: caddy:2-alpine
+    container_name: secureshare-caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    networks:
+      - secureshare-network
+    depends_on:
+      - app
+
+# Named volumes for persistence
+volumes:
+  secureshare-db:
+    driver: local
+  secureshare-uploads:
+    driver: local
+  caddy-data:
+    driver: local
+  caddy-config:
+    driver: local
+
+# Network for inter-service communication
+networks:
+  secureshare-network:
+    driver: bridge

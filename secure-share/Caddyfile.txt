@@ -1,0 +1,49 @@
+# Caddyfile for SecureShare
+# Replace 'yourdomain.com' with your actual domain
+
+# Main domain with automatic HTTPS
+share.yourdomain.com {
+    # Reverse proxy to the Next.js app
+    reverse_proxy app:3000 {
+        # WebSocket support
+        header_up Host {host}
+        header_up X-Real-IP {remote_host}
+        header_up X-Forwarded-For {remote_host}
+        header_up X-Forwarded-Proto {scheme}
+    }
+    
+    # Security headers
+    header {
+        # HSTS
+        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+        # Prevent clickjacking
+        X-Frame-Options "DENY"
+        # Prevent MIME sniffing
+        X-Content-Type-Options "nosniff"
+        # XSS Protection
+        X-XSS-Protection "1; mode=block"
+        # Content Security Policy
+        Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com"
+        # Referrer Policy
+        Referrer-Policy "strict-origin-when-cross-origin"
+    }
+    
+    # Logging
+    log {
+        output file /var/log/caddy/access.log
+        format json
+    }
+    
+    # Gzip compression
+    encode gzip zstd
+}
+
+# Optional: Redirect www to non-www
+www.share.yourdomain.com {
+    redir https://share.yourdomain.com{uri} permanent
+}
+
+# HTTP to HTTPS redirect (handled automatically by Caddy)
+# http://share.yourdomain.com {
+#     redir https://share.yourdomain.com{uri} permanent
+# }

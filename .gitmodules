@@ -61,3 +61,63 @@
 [submodule "gov-wtf"]
 	path = gov-wtf
 	url = https://github.com/euxzy/gov-wtf.git
+[submodule "imalrightjack-bot"]
+	path = imalrightjack-bot
+	url = https://github.com/bbeetlesam/imalrightjack-bot
+[submodule "scrape-result-reader-mobile-app"]
+	path = scrape-result-reader-mobile-app
+	url = https://github.com/RizqullahY/scrape-result-reader-mobile-app
+[submodule "bot-nganggur"]
+	path = bot-nganggur
+	url = https://github.com/fdvky1/bot-nganggur.git
+[submodule "MamboSU"]
+	path = MamboSU
+	url = https://github.com/RapliVx/KernelSU.git
+[submodule "auriya"]
+	path = auriya
+	url = https://github.com/pavelc4/auriya.git
+[submodule "Rin"]
+	path = Rin
+	url = https://github.com/pavelc4/Rin.git
+[submodule "pixtify"]
+	path = pixtify
+	url = https://github.com/pavelc4/pixtify.git
+[submodule "aether-tg-bot"]
+	path = aether-tg-bot
+	url = https://github.com/pavelc4/aether-tg-bot.git
+[submodule "yume-go"]
+	path = yume-go
+	url = https://github.com/pavelc4/yume-go.git
+[submodule "website-builder"]
+	path = website-builder
+	url = https://github.com/zidniahmeed/website-builder.git
+[submodule "floodzy"]
+	path = floodzy
+	url = https://github.com/MattYudha/floodzy.git
+[submodule "yet-another-slighty-cooler-to-do-list-app"]
+	path = yet-another-slighty-cooler-to-do-list-app
+	url = https://github.com/x1nx3r/yet-another-slightly-cooler-to-do-app-you-migh-not-use-anyway.git
+[submodule "todo"]
+	path = todo
+	url = https://github.com/putra4648/todo
+[submodule "Scanner"]
+	path = Scanner
+	url = https://github.com/Damarcreative/Scanner.git
+[submodule "chess-matchmaking"]
+	path = chess-matchmaking
+	url = https://github.com/Nipaaaa1/chess-matchmaking.git
+[submodule "tailwindOCD"]
+	path = tailwindOCD
+	url = https://github.com/suryami62/tailwindOCD.git
+[submodule "nanti-aja"]
+	path = nanti-aja
+	url = https://github.com/vathmos/nanti-aja.git
+[submodule "url-shortening-service"]
+	path = url-shortening-service
+	url = https://github.com/Dams168/url-shortening-service
+[submodule "satset-ai"]
+	path = satset-ai
+	url = https://github.com/RifkiFrds/satset-ai.git
+[submodule "Programmer-quiz"]
+	path = Programmer-quiz
+	url = https://github.com/aud1tya4dnan/programmer-quiz.git

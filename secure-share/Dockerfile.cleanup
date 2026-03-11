@@ -1,0 +1,32 @@
+# Dockerfile for Cleanup Service
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Install bun
+RUN npm install -g bun
+
+# Copy package files
+COPY package.json bun.lockb* ./
+COPY prisma ./prisma/
+
+# Install dependencies
+RUN bun install --frozen-lockfile
+
+# Generate Prisma client
+RUN bun run db:generate
+
+# Copy cleanup service
+COPY mini-services/cleanup-service ./cleanup-service
+
+# Create non-root user
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 cleanup
+
+# Set permissions
+RUN mkdir -p /app/db && chown -R cleanup:nodejs /app
+
+USER cleanup
+
+# Run cleanup service
+CMD ["bun", "run", "cleanup-service/index.ts"]
