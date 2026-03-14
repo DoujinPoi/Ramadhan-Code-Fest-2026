@@ -124,3 +124,6 @@
 [submodule "Check-Cortisol"]
 	path = Check-Cortisol
 	url = https://github.com/IlhamApriansyah/Check-Cortisol/
+[submodule "crontab-golang"]
+	path = crontab-golang
+	url = https://github.com/risqinf/go-exec
