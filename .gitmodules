@@ -127,3 +127,6 @@
 [submodule "crontab-golang"]
 	path = crontab-golang
 	url = https://github.com/risqinf/go-exec
+[submodule "ranf-language"]
+	path = ranf-language
+	url = https://github.com/risqinf/ranf
