@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="style.css">
+  <title>Ngetik Aja Dulu | Statistik</title>
+</head>
+<body>
+  <div class="main" style="width: 100%;">
+    <a href="index.html" class="btn">Kembali</a>
+    <div class="center flex-col" id="highestStatSection">
+      <h1 class="title">Skor Tertinggi</h1>
+      <br>
+    </div>
+    <h1 class="title">Skor Lainnya</h1>
+    <div class="grid-container" id="otherStats"></div>
+  </div>
+  <div class="mobile-warn">
+    <h1>Bukan untuk perangkat mobile, coba buka di laptop/PC</h1>
+  </div>
+  <script>
+    // untuk mendapatkan elemen berdasarkan selector CSS
+    function get(selector) {
+      return document.querySelector(selector);
+    }
+    // membuat elemen
+    function createElement(tag, prop = {}) {
+      return Object.assign(document.createElement(tag), prop);
+    }
+    function getDatetime(date) {
+      const arr = date.toLocaleDateString().split('/');
+      return `${arr[1]}/${arr[0]}/${+arr[2]} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`;
+    }
+    let highestStatSection = get("#highestStatSection"),
+    otherStats = get("#otherStats"),
+    gameStats = localStorage.getItem("game_stats") == null ? [] : JSON.parse(localStorage.getItem("game_stats"));
+    if(gameStats.length > 0) {
+      // jika data-data ada maka tampilkan data data tsb.
+      // data paling bagus/tertinggi
+      const firstStat = gameStats[0];
+      highestStatSection.appendChild(
+        createElement('div', {
+          'className': 'card gold-card',
+          'innerHTML': `<div class="info">WPM : ${firstStat.wpm}<br>Akurasi : ${firstStat.accu}%<br>Total Kata : ${firstStat.total_w}</div><div class="card-date">${getDatetime(new Date(firstStat.datetime))}</div>`
+        })
+      );
+      if(gameStats.length > 1) {
+        // data lainnya
+        for(let i = 1; i < gameStats.length; i++) {
+          otherStats.appendChild(
+            createElement('div', {
+              'className': 'card blue-card',
+              'innerHTML': `<div class="info">WPM : ${gameStats[i].wpm}<br>Akurasi : ${gameStats[i].accu}%<br>Total Kata : ${gameStats[i].total_w}</div><div class="card-date">${getDatetime(new Date(gameStats[i].datetime))}</div>`
+            })
+          );
+        }
+      }
+    } else {
+      // jika data tidak ada maka tampilkan tulisan "kosong"
+      highestStatSection.appendChild(createElement('p', {innerHTML: '<i>Kosong</i>'}));
+      otherStats.parentElement.appendChild(createElement('p', {className: 'a-ctr', innerHTML: '<i>Kosong</i>'}));
+    }
+  </script>
+</body>
+</html>

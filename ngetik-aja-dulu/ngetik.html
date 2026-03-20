@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Ngetik Aja Dulu | Game</title>
+</head>
+<body>
+  <div class="main">
+    <p id="timeleft" style="text-align: center;">Ketik Untuk Mulai</p>
+    <h1 id="txt-to-type"></h1>
+    <div class="mt-lg">
+      <select id="lang" onchange="changeLang()">
+        <option value="0">Inggris</option>
+        <option value="1">Indonesia</option>
+      </select>
+      <a href="index.html" class="btn" id="backBtn">Kembali</a>
+      <button type="button" class="btn-red" id="surrendBtn" onclick="endGame()" hidden>Menyerah</button>
+    </div>
+  </div>
+  <div class="mobile-warn">
+    <h1>Bukan untuk perangkat mobile, coba buka di laptop/PC</h1>
+  </div>
+  <script>
+    // untuk mendapatkan elemen berdasarkan selector CSS
+    function get(selector) {
+      return document.querySelector(selector);
+    }
+    // list kata random dari EN
+    const randomWordsEN = [
+      "cat", "dog", "sun", "tree", "car",
+      "bus", "pen", "phone", "run", "jump",
+      "eat", "sleep", "read", "write", "walk",
+      "talk", "house", "door", "lamp", "shoe",
+      "shirt", "pants", "room", "flower", "eye",
+      "hand", "foot", "city", "town", "book",
+      "adventure", "celebration", "happiness",
+      "beautiful", "computer", "universe",
+      "elephant", "butterfly", "chocolate",
+      "pineapple", "photography", "umbrella",
+      "television", "dinosaur", "strawberry",
+      "watermelon", "motorcycle", "helicopter",
+      "education", "imagination"
+    ];
+    // list kata random dari ID
+    const randomWordsID = [
+      "buku", "meja", "kursi", "pintu", "makan", 
+      "minum", "lari", "baca", "tulis", "jalan",
+      "tidur", "rumah", "air", "api", "mobil",
+      "motor", "sepeda", "lampu", "baju", "celana",
+      "sendal", "sepatu", "kamar", "pohon", "bunga",
+      "mata", "tangan", "kaki", "kota", "desa",
+      "berkebun", "menyanyi", "kebersihan", 
+      "permainan", "kesehatan", "pendidikan",
+      "kebahagiaan", "perjalanan", "kecantikan",
+      "pemandangan", "pertunjukan", "perusahaan",
+      "peralatan", "kepolisian", "kedisiplinan",
+      "persahabatan", "keterampilan", "keseimbangan",
+      "pengalaman", "kebersamaan"
+    ];
+    // variabel
+    let currWord = '',
+    currCharPos = 0,
+    correctCount = 0,
+    ErrCount = 0,
+    totalWords = 0,
+    startTime = null,
+    secLeft = 8,
+    secLeftLabel = get("#timeleft"),
+    textToType = get("#txt-to-type"),
+    surrendBtn = get("#surrendBtn"),
+    backBtn = get("#backBtn"),
+    wrong = false,
+    gameEnded = false,
+    currLang = 0,
+    prevWord = '';
+    choseRandomWord();
+    // ketika key di keyboard diklik
+    document.body.onkeydown = (e) => {
+      // jika sudah selesai, maka jangan eksekusi kode
+      if(gameEnded) return e.preventDefault();
+      // jika bukan abjad/nomor maka jangan eksekusi kode berikutnya
+      if(e.key.length > 1) return e.preventDefault();
+      // jika tombol menyerah belum tampil, maka tampilkan tombol menyerah
+      if(surrendBtn.hidden) {
+        backBtn.hidden = true;
+        surrendBtn.removeAttribute('hidden');
+      }
+      // jika waktu yg tersisa habis, maka game selesai
+      if(secLeft <= 0) return endGame();
+      // jika waktu mulai belum ada, maka atur waktu mulai
+      if(startTime == null) {
+        startTime = new Date();
+        updateSecLeft();
+        get("#lang").hidden = true;
+      }
+      // mengambil huruf saat ini lalu bandingkan dengan
+      // yg di input user
+      const currChar = currWord[currCharPos];
+      if(e.key === currChar) {
+        // tambahkan total huruf yg benar (+1)
+        correctCount++;
+        // tambahkan posisi huruf saat ini (+1)
+        currCharPos++;
+      } else {
+        // tambahkan total huruf yang salah (+1)
+        // dan buat tampilan teks yang diketik menjadi merah
+        ErrCount++;
+        wrong = true;
+      }
+      // jika sudah mencapai huruf terakhir, maka pilih kata baru
+      if(currCharPos >= currWord.length) return choseRandomWord();
+      updateDisplay();
+      e.preventDefault();
+    }
+
+    function choseRandomWord() {
+      // pilih kata dari list kata random sesuai bahasa
+      let currArr = currLang === 0 ? randomWordsEN : randomWordsID;
+      let idx = Math.round(Math.random() * (currArr.length - 1));
+      if(prevWord === currArr[idx]) return choseRandomWord();
+      currWord = currArr[idx];
+      prevWord = currWord;
+      // reset posisi huruf, tambahkan waktu yg tersisa (+1), tambahkan total kata yang diketik (+1)
+      currCharPos = 0;
+      secLeft += 2;
+      totalWords++;
+      // update tampilan
+      updateDisplay();
+      if(startTime != null) updateSecLeft();
+    }
+
+    function changeLang() {
+      // ganti bahasa saat ini sesuai pilihan user (ID/EN)
+      let select = get("#lang");
+      currLang = parseInt(select.value);
+      // dan pilih kata random untuk menyesuaikan bahasa yang dipilih
+      choseRandomWord();
+    }
+
+    function endGame() {
+      // jika sudah selesai, maka jangan eksekusi lagi
+      if(gameEnded) return;
+      if(!surrendBtn.hasAttribute('hidden')) {
+        surrendBtn.hidden = true;
+        backBtn.removeAttribute('hidden');
+      }
+      // atur game menjadi sudah selesai, lalu hitung durasi permainan dalam menit
+      const endTime = new Date();
+      const minutes = (endTime - startTime) / 60000;
+      gameEnded = true;
+      startTime = null;
+      // atur supaya text "waktu yg tersisa" menjadi normal (tidak berwarna merah)
+      secLeftLabel.className = "";
+      // hitung WPM(Word Per Minute)
+      // rumus: (Jumlah Karakter Yg Benar / 5) / Jumlah Menit
+      // note: 5 yg dimaksud adalah rata-rata jumlah karakter setiap kata-kata
+      let wpm = ((correctCount / 5) / minutes).toFixed(2);
+      // hitung akurasi
+      const total = correctCount + ErrCount;
+      // rumus: (Jumlah Karakter Yg Benar / Total Karakter Yg Diketik) * 100
+      let accuracy = total > 0 ? ((correctCount / total) * 100).toFixed(2) : 0;
+      // tampilkan info WPM, akurasi dan total kata
+      secLeftLabel.innerHTML = `WPM : ${wpm}<br>Akurasi : ${accuracy}%<br>Total Kata : ${totalWords}`;
+      textToType.remove();
+      // simpan data supaya bisa dilihat di statistik
+      let datas = localStorage.getItem('game_stats') == null ? [] : JSON.parse(localStorage.getItem('game_stats'));
+      datas.push({'wpm': wpm, 'accu': accuracy, 'total_w': totalWords, 'datetime': endTime.toJSON()});
+      if(datas.length > 1) {
+        datas.sort((a, b) => {
+          return (b.total_w - a.total_w) + (b.wpm - a.wpm) + (b.accu - a.accu);
+        });
+      }
+      localStorage.setItem('highest_stat', JSON.stringify(datas[0]));
+      localStorage.setItem('game_stats', JSON.stringify(datas));
+    }
+
+    function updateDisplay() {
+      let text = '';
+      // loop untuk membuat tampilan kata saat ini
+      for(let i = 0; i < currWord.length; i++) {
+        if(i < currCharPos) {
+          // huruf yg sudah benar (warna lime)
+          text += `<span class="correct">${currWord[i]}</span>`;
+        } else if(i === currCharPos) {
+          // huruf saat ini / huruf yang akan diketik (warna yellowgreen)
+          text += `<span class="yellow-g">${currWord[i]}</span>`;
+        } else {
+          // bukan huruf saat ini / huruf yang belum diketik (warna hitam)
+          text += currWord[i];
+        }
+      }
+      if(wrong) {
+        // jika typo/salah maka tampilkan teks merah
+        textToType.className = "danger";
+        textToType.innerHTML = currWord;
+        wrong = false;
+        setTimeout(() => updateDisplay(), 250);
+      } else {
+        // selain itu maka atur teks sesuai loop sebelumya
+        textToType.className = "";
+        textToType.innerHTML = text;
+      }
+    }
+
+    function updateSecLeft() {
+      if(gameEnded) return;
+      // jika waktu habis maka game selesai
+      if(secLeft === 0) return endGame();
+      // jika waktu yg tersisa <= 3 maka tampilkan teks merah
+      if(secLeft <= 3) secLeftLabel.className = "danger";
+      else secLeftLabel.className = "";
+      secLeftLabel.innerHTML = `Waktu Tersisa: ${secLeft}`;
+    }
+    
+    // untuk update waktu yg tersisa setiap 1 detik
+    setInterval(() => {
+      if(!gameEnded && startTime != null) {
+        secLeft -= 1;
+        updateSecLeft();
+      }
+    }, 1000);
+
+  </script>
+</body>
+</html>
