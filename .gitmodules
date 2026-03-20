@@ -130,3 +130,6 @@
 [submodule "ranf-programing-language"]
 	path = ranf-programing-language
 	url = https://github.com/risqinf/ranf
+[submodule "KBBI"]
+	path = KBBI
+	url = https://github.com/univzy/kbbi.git
