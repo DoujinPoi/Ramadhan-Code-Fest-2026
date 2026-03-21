@@ -1,0 +1,26 @@
+[package]
+name        = "kalkulator"
+version     = "2.0.0"
+edition     = "2021"
+authors     = ["risqinf"]
+description = "Kalkulator CLI Sederhana"
+repository  = "https://github.com/risqinf/kalkulator"
+license     = "MIT"
+keywords    = ["calculator", "cli", "precision", "math", "arbitrary-precision"]
+categories  = ["command-line-utilities", "mathematics"]
+
+[[bin]]
+name = "kalkulator"
+path = "src/main.rs"
+
+[dependencies]
+
+[profile.release]
+opt-level = 3
+lto       = true
+codegen-units = 1
+strip     = true
+
+[profile.dev]
+opt-level = 0
+debug     = true
